@@ -1,9 +1,11 @@
-/* Шелл приложения: sidebar + header + main. Двухколоночная раскладка. */
+/* Каркас приложения: сайдбар + шапка + основная область.
+   Значения — из дизайн-пакета «Газпром ЦПС» (styles/shell.css прототипа);
+   правой «рельсы» команды у нас нет — это HR-специфика прототипа. */
 
 .app {
   display: grid;
-  grid-template-columns: 232px 1fr;
-  grid-template-rows: 56px 1fr;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-rows: var(--header-h) 1fr;
   grid-template-areas:
     "sidebar header"
     "sidebar main";
@@ -11,257 +13,287 @@
 }
 
 .app[data-sidebar="collapsed"] {
-  grid-template-columns: 64px 1fr;
+  grid-template-columns: var(--sidebar-w-collapsed) 1fr;
 }
 
-/* ============ Sidebar ============ */
+/* ============ Сайдбар ============ */
 .sidebar {
   grid-area: sidebar;
-  background: linear-gradient(180deg, var(--gpc-blue) 0%, var(--gpc-blue-800) 100%);
-  color: #fff;
+  background: linear-gradient(180deg, var(--gpc-blue) 0%, var(--gpc-blue-700) 100%);
+  color: var(--on-brand-strong);
   display: flex;
   flex-direction: column;
-  padding: 14px 10px;
-  overflow: hidden;
   position: sticky;
   top: 0;
   height: 100vh;
+  z-index: 30;
 }
 
 .sb-brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 8px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, .14);
-  margin-bottom: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--on-brand-line);
+  height: var(--header-h);
+  min-height: var(--header-h);
 }
 
-/* Фирменный логотип через CSS-маску: красит силуэт /logo.svg в белый
-   (на синем сайдбаре). Файл логотипа — frontend/public/logo.svg. */
 .sb-brand-logo {
-  width: 44px;
-  height: 44px;
-  flex-shrink: 0;
-  background-color: #fff;
-  -webkit-mask: url('/logo.svg') center / contain no-repeat;
-  mask: url('/logo.svg') center / contain no-repeat;
-}
-
-/* Логотип на странице входа: синий силуэт (--gpc-blue) на светлой карточке. */
-.login-brand-logo {
-  width: 72px;
-  height: 72px;
-  margin: 0 auto 12px;
-  background-color: var(--gpc-blue);
-  -webkit-mask: url('/logo.svg') center / contain no-repeat;
-  mask: url('/logo.svg') center / contain no-repeat;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  display: grid;
+  place-items: center;
 }
 
 .sb-brand-text {
   display: flex;
   flex-direction: column;
-  line-height: 1.15;
+  gap: 1px;
+  line-height: 1.05;
   min-width: 0;
 }
 
 .sb-brand-title {
   font-family: var(--font-head);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: .2px;
-  color: #fff;
+  letter-spacing: .02em;
+  color: var(--on-brand-strong);
   white-space: nowrap;
 }
 
 .sb-brand-sub {
-  font-size: 11px;
-  color: rgba(255, 255, 255, .72);
+  font-size: 10px;
+  color: var(--on-brand-muted);
+  letter-spacing: .14em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
-.app[data-sidebar="collapsed"] .sb-brand-text,
-.app[data-sidebar="collapsed"] .sb-section-label {
+.app[data-sidebar="collapsed"] .sb-brand-text {
   display: none;
 }
 
 .sb-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
+  padding: 12px 8px;
+  flex: 1 1 auto;
   overflow-y: auto;
 }
 
+.sb-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, .15);
+  border-color: transparent;
+}
+
 .sb-section-label {
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: .8px;
+  font-size: 10px;
+  color: var(--on-brand-label);
   text-transform: uppercase;
-  color: rgba(255, 255, 255, .55);
-  padding: 14px 12px 6px;
+  letter-spacing: .14em;
+  padding: 14px 10px 6px;
+  font-weight: 600;
+}
+
+.app[data-sidebar="collapsed"] .sb-section-label {
+  text-align: center;
+  padding: 10px 0 4px;
 }
 
 .sb-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 12px;
-  border-radius: var(--r-md);
-  color: rgba(255, 255, 255, .88);
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 13px;
+  padding: 8px 10px;
+  color: var(--on-brand);
+  border-radius: var(--r-sm);
+  font-size: 13.5px;
   font-weight: 500;
-  border: 0;
+  line-height: 1.2;
+  cursor: pointer;
+  border: none;
   background: transparent;
-  text-align: left;
   width: 100%;
+  text-align: left;
+  font-family: inherit;
   transition: background .12s ease;
 }
 
 .sb-item:hover {
-  background: rgba(255, 255, 255, .09);
-  color: #fff;
+  background: var(--on-brand-hover);
+  color: var(--on-brand-strong);
+  text-decoration: none;
 }
 
 .sb-item[aria-current="page"] {
-  background: rgba(255, 255, 255, .16);
-  color: #fff;
+  background: var(--on-brand-active);
+  color: var(--on-brand-strong);
+  box-shadow: inset 3px 0 0 var(--gpc-orange);
 }
 
 .sb-item .anticon {
-  font-size: 16px;
-  flex-shrink: 0;
+  font-size: 18px;
+  flex: 0 0 18px;
+  opacity: .9;
+}
+
+.app[data-sidebar="collapsed"] .sb-item {
+  justify-content: center;
+  padding: 10px 0;
 }
 
 .app[data-sidebar="collapsed"] .sb-item span:not(.anticon) {
   display: none;
 }
 
-.app[data-sidebar="collapsed"] .sb-item {
-  justify-content: center;
-  padding: 8px;
+.sb-footer {
+  padding: 10px 8px 14px;
+  border-top: 1px solid var(--on-brand-line);
 }
 
 .sb-collapse {
-  margin-top: 8px;
-  padding: 8px 12px;
-  border: 0;
-  background: rgba(255, 255, 255, .08);
-  color: rgba(255, 255, 255, .88);
-  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--on-brand-fill);
+  color: var(--on-brand-strong);
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+  width: 100%;
+  font-size: 12.5px;
+  font-weight: 500;
+  font-family: inherit;
   cursor: pointer;
-  font-size: 12px;
 }
 
 .sb-collapse:hover {
-  background: rgba(255, 255, 255, .14);
+  background: var(--on-brand-active);
 }
 
-/* ============ Header ============ */
+.app[data-sidebar="collapsed"] .sb-collapse {
+  justify-content: center;
+}
+
+/* ============ Шапка ============ */
 .header {
   grid-area: header;
   background: var(--card-bg);
   border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 22px;
+  padding: 0 24px;
+  gap: 16px;
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
 }
 
 .hdr-section-title {
+  font-family: var(--font-head);
+  font-size: 17px;
+  color: var(--gpc-gray-800);
+  letter-spacing: .01em;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
   min-width: 0;
 }
 
-.hdr-section-title h1 {
-  font-family: var(--font-head);
-  font-size: 18px;
-  font-weight: 700;
+.hdr-section-title .crumb-root {
+  color: var(--gpc-gray-500);
+  font-weight: 400;
+}
+
+.hdr-section-title .crumb-sep {
+  color: var(--gpc-gray-300);
+  font-weight: 400;
+}
+
+.hdr-section-title .crumb-current {
   color: var(--gpc-gray-800);
-  margin: 0;
+  font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.hdr-crumbs {
-  font-size: 12px;
-  color: var(--gpc-gray-500);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.hdr-crumbs a {
-  color: var(--gpc-gray-500);
-  text-decoration: none;
-}
-
-.hdr-crumbs a:hover {
-  color: var(--gpc-blue);
+.hdr-spacer {
+  flex: 1 1 auto;
 }
 
 .hdr-avatar {
   display: flex;
   align-items: center;
   gap: 10px;
+  background: transparent;
+  border: 0;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.hdr-avatar:hover {
+  background: var(--gpc-gray-50);
 }
 
 .hdr-avatar-circle {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
   border-radius: 50%;
   background: var(--gpc-sky);
   color: var(--gpc-blue-800);
+  border: 2px solid var(--gpc-white);
+  box-shadow: 0 0 0 1px var(--line);
   display: grid;
   place-items: center;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 12px;
   letter-spacing: .3px;
 }
 
 .hdr-avatar-name {
   font-size: 12.5px;
-  color: var(--gpc-gray-700);
+  color: var(--gpc-gray-600);
   font-weight: 500;
 }
 
-/* ============ Main ============ */
+/* ============ Основная область ============ */
 .main {
   grid-area: main;
-  padding: 22px 26px 32px;
+  padding: 24px 28px 48px;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
   overflow-x: hidden;
 }
 
-/* ============ Page head ============ */
+/* ============ Заголовок страницы ============ */
 .page-head {
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 18px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--line);
+  gap: 24px;
+  margin-bottom: 20px;
 }
 
 .page-head h1 {
   font-family: var(--font-head);
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
   color: var(--gpc-gray-800);
-  margin: 0 0 4px 0;
+  margin: 0;
 }
 
 .page-head .page-sub {
-  font-size: 13px;
   color: var(--gpc-gray-500);
+  font-size: 14px;
+  margin-top: 4px;
 }
 
 .page-head-actions {
@@ -270,24 +302,24 @@
   flex-shrink: 0;
 }
 
-/* ============ Tabs (HTML, не AntD) ============ */
+/* ============ Вкладки страницы (собственные, не AntD) ============ */
 .tabs {
   display: flex;
   gap: 4px;
   border-bottom: 1px solid var(--line);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .tabs button {
   background: transparent;
-  border: 0;
-  padding: 10px 14px;
-  font-size: 13px;
+  border: none;
+  padding: 10px 16px 12px;
+  font-size: 13.5px;
   font-weight: 500;
   color: var(--gpc-gray-500);
-  cursor: pointer;
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
+  cursor: pointer;
   font-family: inherit;
   transition: color .12s ease;
 }
@@ -299,4 +331,42 @@
 .tabs button[aria-selected="true"] {
   color: var(--gpc-blue);
   border-bottom-color: var(--gpc-blue);
+  font-weight: 600;
+}
+
+/* ============ Страница входа ============ */
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: linear-gradient(110deg, var(--gpc-white) 0%, var(--gpc-white) 45%, var(--gpc-sky) 100%);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+.login-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.login-title {
+  font-family: var(--font-head);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gpc-blue-800);
+  margin: 0;
+  text-align: center;
+}
+
+.login-sub {
+  font-size: 12.5px;
+  color: var(--gpc-gray-500);
+  text-align: center;
 }

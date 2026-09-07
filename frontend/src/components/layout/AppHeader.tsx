@@ -38,8 +38,13 @@ export function AppHeader() {
   return (
     <header className="header">
       <div className="hdr-section-title">
-        <h1>{sectionTitle(location.pathname)}</h1>
+        <span className="crumb-root">Process Mining</span>
+        <span className="crumb-sep" aria-hidden>
+          /
+        </span>
+        <span className="crumb-current">{sectionTitle(location.pathname)}</span>
       </div>
+      <div className="hdr-spacer" />
       <Dropdown
         menu={{
           items: [
@@ -59,17 +64,7 @@ export function AppHeader() {
         }}
         placement="bottomRight"
       >
-        <button
-          type="button"
-          className="hdr-avatar"
-          style={{
-            background: 'transparent',
-            border: 0,
-            cursor: 'pointer',
-            padding: '4px 8px',
-            borderRadius: 8,
-          }}
-        >
+        <button type="button" className="hdr-avatar">
           <span className="hdr-avatar-circle">{initials(displayName)}</span>
           <span className="hdr-avatar-name">{displayName}</span>
         </button>

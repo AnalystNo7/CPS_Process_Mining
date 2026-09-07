@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { LogoCube } from '@/components/brand/LogoCube';
 import { useAuthStore } from '@/stores/authStore';
 
 interface NavItem {
@@ -60,7 +61,9 @@ export function AppSider({
   return (
     <aside className="sidebar">
       <div className="sb-brand">
-        <div className="sb-brand-logo" aria-hidden />
+        <div className="sb-brand-logo">
+          <LogoCube size={30} />
+        </div>
         <div className="sb-brand-text">
           <span className="sb-brand-title">Process Mining</span>
           <span className="sb-brand-sub">Аналитика процессов</span>
@@ -90,15 +93,17 @@ export function AppSider({
         ))}
       </nav>
 
-      <button
-        type="button"
-        className="sb-collapse"
-        onClick={onToggle}
-        aria-label={collapsed ? 'Развернуть меню' : 'Свернуть меню'}
-      >
-        {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        {!collapsed && <span style={{ marginLeft: 8 }}>Свернуть</span>}
-      </button>
+      <div className="sb-footer">
+        <button
+          type="button"
+          className="sb-collapse"
+          onClick={onToggle}
+          aria-label={collapsed ? 'Развернуть меню' : 'Свернуть меню'}
+        >
+          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          {!collapsed && <span>Свернуть меню</span>}
+        </button>
+      </div>
     </aside>
   );
 }

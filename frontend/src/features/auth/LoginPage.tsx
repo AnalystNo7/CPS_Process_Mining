@@ -1,7 +1,8 @@
-import { Button, Card, Checkbox, Form, Input, Typography } from 'antd';
+import { Button, Card, Checkbox, Form, Input } from 'antd';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { LogoCube } from '@/components/brand/LogoCube';
 import { getErrorMessage, notifyError } from '@/lib/notify';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -32,26 +33,13 @@ export function LoginPage() {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        minHeight: '100vh',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background:
-          'linear-gradient(135deg, var(--gpc-blue-900) 0%, var(--gpc-blue) 65%, var(--gpc-blue-700) 100%)',
-        padding: 24,
-      }}
-    >
-      <Card className="card" style={{ width: 380 }} styles={{ body: { padding: 28 } }}>
-        <div style={{ textAlign: 'center', marginBottom: 18 }}>
-          <div className="login-brand-logo" aria-hidden />
-          <Typography.Title level={3} style={{ margin: 0, fontFamily: 'var(--font-head)' }}>
-            Process Mining
-          </Typography.Title>
-          <Typography.Text type="secondary" style={{ fontSize: 13 }}>
-            Аналитика бизнес-процессов
-          </Typography.Text>
+    <div className="login-page">
+      <Card className="card login-card" styles={{ body: { padding: 28 } }}>
+        <div className="login-brand">
+          {/* На светлой карточке нужен цветной вариант куба. */}
+          <LogoCube size={72} variant="onLight" />
+          <h1 className="login-title">Process Mining</h1>
+          <span className="login-sub">Аналитика бизнес-процессов</span>
         </div>
         <Form<LoginFormValues>
           layout="vertical"

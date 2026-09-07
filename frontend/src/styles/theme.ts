@@ -171,8 +171,12 @@ export const antdTheme: ThemeConfig = {
     DatePicker: { fontSize: 13 },
     Table: {
       cellFontSize: 13,
+      cellFontSizeSM: 13,
       cellPaddingBlock: 10,
       cellPaddingInline: 12,
+      // size="small" (аналитические таблицы) берёт собственные отступы.
+      cellPaddingBlockSM: 10,
+      cellPaddingInlineSM: 12,
       headerBg: tokens.gray50,
       headerColor: tokens.gray500,
       rowHoverBg: tokens.gray50,
