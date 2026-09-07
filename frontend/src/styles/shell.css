@@ -39,12 +39,22 @@
   min-height: var(--header-h);
 }
 
-.sb-brand-logo {
-  width: 30px;
-  height: 30px;
-  flex: 0 0 30px;
-  display: grid;
-  place-items: center;
+.sb-brand-mark {
+  display: none;
+  font-family: var(--font-head);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--on-brand-strong);
+}
+
+.app[data-sidebar="collapsed"] .sb-brand {
+  justify-content: center;
+  padding: 12px 8px;
+}
+
+.app[data-sidebar="collapsed"] .sb-brand-mark {
+  display: block;
 }
 
 .sb-brand-text {
@@ -53,11 +63,21 @@
   gap: 1px;
   line-height: 1.05;
   min-width: 0;
+  overflow: hidden;
+}
+
+/* Названию и подписи тесно в 200px сайдбара: на запасном шрифте (если Inter
+   или PT Sans Narrow не загрузились) строки шире — обрезаем многоточием,
+   чтобы блок не выпирал за границу меню. */
+.sb-brand-title,
+.sb-brand-sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .sb-brand-title {
   font-family: var(--font-head);
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: .02em;
   color: var(--on-brand-strong);
@@ -67,7 +87,9 @@
 .sb-brand-sub {
   font-size: 10px;
   color: var(--on-brand-muted);
-  letter-spacing: .14em;
+  /* Разрядка меньше макетной (.14em): подпись из 26 символов иначе
+     упирается в ширину сайдбара и обрезается на запасном шрифте. */
+  letter-spacing: .04em;
   text-transform: uppercase;
   white-space: nowrap;
 }

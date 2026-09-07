@@ -86,7 +86,7 @@ frontend/
     api/             # 14 axios-модулей по ресурсам; client.ts — инстанс,
                      # Bearer-интерцептор, refresh-очередь на 401
     components/      # ProcessGraph (cytoscape+dagre), Plot, Pill (статусы),
-                     # brand/LogoCube, ErrorBoundary,
+                     # ErrorBoundary,
                      # ProtectedRoute (adminOnly), layout/ (AppLayout/Header/Sider)
     features/
       auth/          # LoginPage (логин/пароль + чекбокс LDAP)

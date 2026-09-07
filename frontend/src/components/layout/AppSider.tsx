@@ -9,7 +9,6 @@ import {
 } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { LogoCube } from '@/components/brand/LogoCube';
 import { useAuthStore } from '@/stores/authStore';
 
 interface NavItem {
@@ -61,12 +60,13 @@ export function AppSider({
   return (
     <aside className="sidebar">
       <div className="sb-brand">
-        <div className="sb-brand-logo">
-          <LogoCube size={30} />
-        </div>
+        {/* В свёрнутом сайдбаре подписи скрыты — остаётся короткий знак. */}
+        <span className="sb-brand-mark" aria-hidden>
+          PM
+        </span>
         <div className="sb-brand-text">
           <span className="sb-brand-title">Process Mining</span>
-          <span className="sb-brand-sub">Аналитика процессов</span>
+          <span className="sb-brand-sub">Аналитика бизнес-процессов</span>
         </div>
       </div>
 

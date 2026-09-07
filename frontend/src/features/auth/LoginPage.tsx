@@ -2,7 +2,6 @@ import { Button, Card, Checkbox, Form, Input } from 'antd';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { LogoCube } from '@/components/brand/LogoCube';
 import { getErrorMessage, notifyError } from '@/lib/notify';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -36,8 +35,6 @@ export function LoginPage() {
     <div className="login-page">
       <Card className="card login-card" styles={{ body: { padding: 28 } }}>
         <div className="login-brand">
-          {/* На светлой карточке нужен цветной вариант куба. */}
-          <LogoCube size={72} variant="onLight" />
           <h1 className="login-title">Process Mining</h1>
           <span className="login-sub">Аналитика бизнес-процессов</span>
         </div>
