@@ -28,8 +28,11 @@
 **Frontend** (`frontend/package.json`, 67 файлов в `src/`):
 - TypeScript 5.5 (strict), React 18.3, Vite 5.3 — прокси в vite.config НЕТ,
   фронт ходит напрямую на `VITE_API_BASE_URL` (CORS на бэке)
-- Ant Design 5.18 (+icons, locale ru_RU), Plotly (plotly.js-dist-min 2.32 +
+- Ant Design 5.29 (+icons, locale ru_RU), Plotly (plotly.js-dist-min 2.32 +
   react-plotly.js), Cytoscape 3.30 + dagre, react-grid-layout 1.5
+- Оформление — дизайн-система «Газпром ЦПС»: `styles/tokens.css` (CSS) и
+  `styles/theme.ts` (antd + графики) как единственный источник значений;
+  шрифты Inter и PT Sans Narrow самохостятся в `public/fonts`
 - @tanstack/react-query 5.40, zustand 4.5 (persist `pm-auth` в localStorage),
   react-router-dom 6.24, axios (JWT + refresh-очередь в `api/client.ts`), dayjs
 - Объявлены, но не используются: @dnd-kit/*, react-hook-form, zod, bpmn-js
@@ -76,11 +79,14 @@ backend/
     golden/          # 12: regression на golden_data (без БД)
 frontend/
   src/
-    main.tsx         # вход: StrictMode>ErrorBoundary>ConfigProvider(ru)>QueryClient>Router
+    main.tsx         # вход: ConfigProvider(ru, тема из theme.ts) > antd App >
+                     # ErrorBoundary > QueryClient > Router; ConfigProvider.config
+                     # задаёт тему статическим notification/message/Modal
     router.tsx       # все маршруты (App.tsx нет); страницы через React.lazy
     api/             # 14 axios-модулей по ресурсам; client.ts — инстанс,
                      # Bearer-интерцептор, refresh-очередь на 401
-    components/      # ProcessGraph (cytoscape+dagre), Plot, ErrorBoundary,
+    components/      # ProcessGraph (cytoscape+dagre), Plot, Pill (статусы),
+                     # brand/LogoCube, ErrorBoundary,
                      # ProtectedRoute (adminOnly), layout/ (AppLayout/Header/Sider)
     features/
       auth/          # LoginPage (логин/пароль + чекбокс LDAP)
@@ -101,7 +107,11 @@ frontend/
                      # AdminUsers, GlobalRoles, AuditLog, NotFound
     stores/          # authStore (zustand persist: токены, user, login/refresh/logout)
     lib/             # format.ts (даты/длительности), notify.ts, table.ts
-    styles/          # tokens.css, shell.css, components.css, antd-overrides.css
+    styles/          # fonts.css (локальные woff2), tokens.css — источник значений
+                     # для CSS, theme.ts — JS-зеркало токенов + тема antd,
+                     # chartTheme.ts — палитра Plotly/Cytoscape, shell.css,
+                     # components.css, antd-overrides.css;
+                     # theme.test.ts сверяет tokens.css ↔ theme.ts
 docs/                # ТЗ: 00_OVERVIEW … 07_ROADMAP + tasks/T01–T40 + diagrams
 golden_data/         # synthetic_log.xlsx (~2.5 МБ, обезличенный лог TESSA) +
                      # expected_metrics.json (1328 кейсов, 25 606 событий, допуск ±1%)
