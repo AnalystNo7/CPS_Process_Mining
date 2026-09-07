@@ -2,6 +2,7 @@
  * Тест держит их синхронными: расхождение = редизайн «поехал» в одном из мест. */
 import { describe, expect, it } from 'vitest';
 
+import { CHART, GRAPH, SCALE_DURATION, SCALE_FREQUENCY, SERIES } from './chartTheme';
 import { WIDGET_HEAD_PX, antdTheme, tokens, withAlpha } from './theme';
 // ?raw — vite отдаёт содержимое файла строкой (работает и в vitest).
 import css from './tokens.css?raw';
@@ -122,5 +123,33 @@ describe('withAlpha', () => {
 
   it('понимает короткую запись', () => {
     expect(withAlpha('#fff', 1)).toBe('rgba(255, 255, 255, 1)');
+  });
+});
+
+describe('палитра графиков', () => {
+  const known = new Set(
+    Object.values(tokens)
+      .filter((v) => typeof v === 'string' && String(v).startsWith('#'))
+      .map((v) => String(v).toUpperCase())
+  );
+
+  it('серии и цвета графа берутся только из токенов', () => {
+    const values = [
+      ...SERIES,
+      ...Object.values(CHART).filter((v) => typeof v === 'string'),
+      ...Object.values(GRAPH),
+      ...SCALE_FREQUENCY.map(([, color]) => color),
+      ...SCALE_DURATION.map(([, color]) => color),
+    ] as string[];
+
+    for (const value of values) {
+      if (!value.startsWith('#')) continue;
+      expect(known, `${value} нет в tokens`).toContain(value.toUpperCase());
+    }
+  });
+
+  it('серий хватает для категориальных графиков', () => {
+    expect(SERIES.length).toBeGreaterThanOrEqual(5);
+    expect(new Set(SERIES).size).toBe(SERIES.length);
   });
 });

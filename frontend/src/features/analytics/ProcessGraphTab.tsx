@@ -26,6 +26,7 @@ import {
 } from '@/api/analytics';
 import type { EventFilter, OperationSummaryRow } from '@/api/analytics';
 import { Plot } from '@/components/Plot';
+import { CHART, PLOT_BASE } from '@/styles/chartTheme';
 import { ProcessGraph } from '@/components/ProcessGraph';
 import type { GraphHighlight } from '@/components/ProcessGraph';
 import { FilterPanel } from '@/features/analytics/FilterPanel';
@@ -246,7 +247,7 @@ export function ProcessGraphTab({
               top: 0,
               bottom: 0,
               width: `${(value / maxEvents) * 100}%`,
-              background: '#e6f4ff',
+              background: 'var(--gpc-sky)',
               borderRadius: 2,
             }}
           />
@@ -328,7 +329,7 @@ export function ProcessGraphTab({
               onClick={() => togglePath(path.index)}
               style={{
                 cursor: 'pointer',
-                background: selected ? '#e6f4ff' : undefined,
+                background: selected ? 'var(--gpc-sky)' : undefined,
                 paddingLeft: 8,
                 paddingRight: 8,
               }}
@@ -521,15 +522,16 @@ export function ProcessGraphTab({
                   type: 'bar',
                   x: dynamics.map((row) => row.month),
                   y: dynamics.map((row) => row.n_cases),
-                  marker: { color: '#1677ff' },
+                  marker: { color: CHART.primary },
                   name: 'Кол-во экземпляров',
                 },
               ]}
               layout={{
+                ...PLOT_BASE,
                 height: 400,
                 margin: { l: 40, r: 16, t: 16, b: 40 },
-                xaxis: { title: { text: 'Дата начала экземпляра' } },
-                yaxis: { title: { text: 'Кол-во экземпляров' } },
+                xaxis: { ...PLOT_BASE.xaxis, title: { text: 'Дата начала экземпляра' } },
+                yaxis: { ...PLOT_BASE.yaxis, title: { text: 'Кол-во экземпляров' } },
               }}
               config={{ displaylogo: false, responsive: true }}
               style={{ width: '100%' }}

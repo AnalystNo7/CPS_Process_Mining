@@ -13,6 +13,7 @@ import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom';
 
 import type { CytoscapeElement } from '@/api/analytics';
+import { GRAPH } from '@/styles/chartTheme';
 
 cytoscape.use(dagre);
 
@@ -49,12 +50,12 @@ const TERMINAL_LABELS: Record<string, string> = {
 function badgeImage(count: number, height: number): string {
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="${BADGE_W}" height="${height}">` +
-    `<rect width="${BADGE_W}" height="${height}" fill="#f5f5f5"/>` +
+    `<rect width="${BADGE_W}" height="${height}" fill="${GRAPH.badgeFill}"/>` +
     `<line x1="${BADGE_W - 0.5}" y1="0" x2="${BADGE_W - 0.5}" y2="${height}" ` +
-    `stroke="#d9d9d9" stroke-width="1"/>` +
+    `stroke="${GRAPH.badgeStroke}" stroke-width="1"/>` +
     `<text x="${BADGE_W / 2}" y="${height / 2}" ` +
     `font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif" ` +
-    `font-size="13" font-weight="600" fill="#595959" ` +
+    `font-size="13" font-weight="600" fill="${GRAPH.badgeText}" ` +
     `text-anchor="middle" dominant-baseline="central">${count}</text>` +
     `</svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
@@ -79,10 +80,10 @@ const GRAPH_STYLE = [
     style: {
       height: 'label',
       padding: '10px',
-      'background-color': '#ffffff',
-      'border-color': '#d9d9d9',
+      'background-color': GRAPH.nodeBg,
+      'border-color': GRAPH.nodeBorder,
       'border-width': 1,
-      color: '#262626',
+      color: GRAPH.nodeText,
       'text-margin-x': BADGE_W / 2,
       'background-image': 'data(badge)',
       'background-fit': 'none',
@@ -97,9 +98,9 @@ const GRAPH_STYLE = [
     selector: 'node[kind = "start"], node[kind = "end"]',
     style: {
       height: TERMINAL_HEIGHT,
-      'background-color': '#1677ff',
+      'background-color': GRAPH.terminal,
       'border-width': 0,
-      color: '#ffffff',
+      color: GRAPH.terminalText,
       'font-weight': 600,
     },
   },
@@ -107,14 +108,14 @@ const GRAPH_STYLE = [
     selector: 'edge',
     style: {
       width: 2,
-      'line-color': '#bfbfbf',
-      'target-arrow-color': '#bfbfbf',
+      'line-color': GRAPH.edge,
+      'target-arrow-color': GRAPH.edge,
       'target-arrow-shape': 'triangle',
       'curve-style': 'bezier',
       label: 'data(count)',
       'font-size': 11,
-      color: '#8c8c8c',
-      'text-background-color': '#ffffff',
+      color: GRAPH.edgeLabel,
+      'text-background-color': GRAPH.edgeLabelBg,
       'text-background-opacity': 1,
       'text-background-padding': '2px',
     },
@@ -122,14 +123,14 @@ const GRAPH_STYLE = [
   { selector: '.dim', style: { opacity: 0.18 } },
   {
     selector: 'node.hl',
-    style: { 'border-color': '#fa8c16', 'border-width': 3 },
+    style: { 'border-color': GRAPH.highlight, 'border-width': 3 },
   },
   {
     selector: 'edge.hl',
     style: {
-      'line-color': '#fa8c16',
-      'target-arrow-color': '#fa8c16',
-      color: '#fa8c16',
+      'line-color': GRAPH.highlight,
+      'target-arrow-color': GRAPH.highlight,
+      color: GRAPH.highlight,
       width: 3,
     },
   },
@@ -274,7 +275,7 @@ export function ProcessGraph({
     if (!cy) {
       return;
     }
-    const blob = cy.png({ output: 'blob', bg: '#ffffff', full: true, scale: 2 }) as Blob;
+    const blob = cy.png({ output: 'blob', bg: GRAPH.exportBg, full: true, scale: 2 }) as Blob;
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
@@ -329,7 +330,7 @@ export function ProcessGraph({
           position: 'fixed',
           inset: 0,
           zIndex: 1000,
-          background: '#fff',
+          background: GRAPH.overlayBg,
           padding: 12,
           display: 'flex',
           flexDirection: 'column',
@@ -355,7 +356,7 @@ export function ProcessGraph({
           height: expanded || fill ? '100%' : height,
           flex: expanded || fill ? 1 : undefined,
           minHeight: 0,
-          border: '1px solid #f0f0f0',
+          border: `1px solid ${GRAPH.containerBorder}`,
           borderRadius: 8,
         }}
       />

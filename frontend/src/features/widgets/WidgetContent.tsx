@@ -5,6 +5,7 @@ import type { CytoscapeElement } from '@/api/analytics';
 import { Plot } from '@/components/Plot';
 import { ProcessGraph } from '@/components/ProcessGraph';
 import { formatDuration } from '@/lib/format';
+import { CHART, PLOT_BASE, SCALE_DURATION, SCALE_FREQUENCY } from '@/styles/chartTheme';
 import {
   DEFAULT_PAGE_SIZE,
   TABLE_PAGE_SIZE_OPTIONS_STR,
@@ -32,6 +33,7 @@ interface XYPoint {
 }
 
 const BASE_LAYOUT: Partial<Layout> = {
+  ...PLOT_BASE,
   margin: { l: 56, r: 16, t: 16, b: 48 },
   autosize: true,
 };
@@ -95,7 +97,7 @@ function BarOrLine({
     y: data.data.map((p) => p.y),
     type: mode === 'bar' ? 'bar' : 'scatter',
     mode: mode === 'line' ? 'lines+markers' : undefined,
-    marker: { color: '#1677ff' },
+    marker: { color: CHART.primary },
   };
   return (
     <PlotBox>
@@ -125,7 +127,7 @@ function MonthlyDynamics({
       y: data.data.map((p) => p.y),
       type: 'bar',
       name: 'Операции',
-      marker: { color: '#1677ff' },
+      marker: { color: CHART.primary },
     },
     {
       x: data.line_data.map((p) => p.x),
@@ -133,7 +135,7 @@ function MonthlyDynamics({
       type: 'scatter',
       mode: 'lines+markers',
       yaxis: 'y2',
-      line: { color: '#fa8c16' },
+      line: { color: CHART.secondary },
       showlegend: false,
       text: data.line_text,
       hovertemplate: '%{text}<extra></extra>',
@@ -173,7 +175,7 @@ function Heatmap({
   return (
     <PlotBox>
       <Plot
-        data={[{ type: 'heatmap', x: xs, y: ys, z, colorscale: 'Blues' }] as Data[]}
+        data={[{ type: 'heatmap', x: xs, y: ys, z, colorscale: SCALE_FREQUENCY }] as Data[]}
         layout={BASE_LAYOUT}
         style={PLOT_STYLE}
         config={PLOT_CONFIG}
@@ -426,7 +428,7 @@ function OperationsDynamics({
       y: data.bars.map((p) => p.y),
       type: 'bar',
       name: data.bar_label,
-      marker: { color: '#1677ff' },
+      marker: { color: CHART.primary },
     },
     {
       x: data.line.map((p) => p.x),
@@ -435,7 +437,7 @@ function OperationsDynamics({
       mode: 'lines+markers',
       name: data.line_label,
       yaxis: 'y2',
-      line: { color: '#13c2c2' },
+      line: { color: CHART.series[2] },
     },
   ];
   const layout: Partial<Layout> = {
@@ -467,7 +469,7 @@ function EventsPerCaseHistogram({
     x: data.data.map((p) => p.x),
     y: data.data.map((p) => p.y),
     type: 'bar',
-    marker: { color: '#722ed1' },
+    marker: { color: CHART.series[3] },
   };
   const layout: Partial<Layout> = {
     ...BASE_LAYOUT,
@@ -505,8 +507,8 @@ function CaseFlow({
       mode: 'lines',
       name: data.inflow_label,
       fill: 'tozeroy',
-      line: { color: '#1677ff' },
-      fillcolor: 'rgba(22,119,255,0.2)',
+      line: { color: CHART.primary },
+      fillcolor: CHART.fill(CHART.primary, 0.2),
     },
     {
       x: data.outflow.map((p) => p.x),
@@ -515,8 +517,8 @@ function CaseFlow({
       mode: 'lines',
       name: data.outflow_label,
       fill: 'tozeroy',
-      line: { color: '#f5222d' },
-      fillcolor: 'rgba(245,34,45,0.2)',
+      line: { color: CHART.danger },
+      fillcolor: CHART.fill(CHART.danger, 0.2),
     },
   ];
   const layout: Partial<Layout> = {
@@ -633,8 +635,8 @@ function OperationDurationsBoxplot({
     boxmean: true,
     boxpoints: false,
     hoverinfo: 'skip',
-    marker: { color: '#1677ff' },
-    line: { color: '#1677ff' },
+    marker: { color: CHART.primary },
+    line: { color: CHART.primary },
   }));
   // Слой сводки: маркер у медианы каждой операции с полной подсказкой.
   const summaryTrace = {
@@ -642,7 +644,7 @@ function OperationDurationsBoxplot({
     mode: 'markers',
     x: data.traces.map((tr) => tr.median),
     y: data.traces.map((tr) => tr.name),
-    marker: { color: '#1677ff', size: 12, symbol: 'line-ns-open' },
+    marker: { color: CHART.primary, size: 12, symbol: 'line-ns-open' },
     customdata: data.traces.map((tr) => [
       formatDuration(tr.median),
       formatDuration(tr.mean),
@@ -681,7 +683,7 @@ function OperationDurationsBoxplot({
     mode: 'markers',
     x: outX,
     y: outY,
-    marker: { color: 'rgba(22,119,255,0.45)', size: 5 },
+    marker: { color: CHART.fill(CHART.primary, 0.45), size: 5 },
     customdata: outText,
     hovertemplate: 'выброс: %{customdata}<extra></extra>',
     showlegend: false,
@@ -753,7 +755,7 @@ function CaseDurationCdf({
     y: data.points.map((p) => p.y),
     type: 'scatter',
     mode: 'lines',
-    line: { color: '#1677ff', shape: 'hv' },
+    line: { color: CHART.primary, shape: 'hv' },
     customdata: xs.map((v) => formatDuration(v)),
     hovertemplate: '%{y:.1f}% ≤ %{customdata}<extra></extra>',
   };
@@ -777,7 +779,7 @@ function CaseDurationCdf({
         x1: data.sla_target_seconds,
         y0: 0,
         y1: 100,
-        line: { color: '#cf1322', width: 2, dash: 'dash' },
+        line: { color: CHART.danger, width: 2, dash: 'dash' },
       },
     ];
     layout.annotations = [
@@ -790,7 +792,7 @@ function CaseDurationCdf({
           data.pct_within_sla != null
             ? `SLA ${formatDuration(data.sla_target_seconds)} · ${data.pct_within_sla.toFixed(0)}% уложились`
             : `SLA ${formatDuration(data.sla_target_seconds)}`,
-        font: { color: '#cf1322' },
+        font: { color: CHART.danger },
       },
     ];
   }
@@ -863,7 +865,7 @@ function DurationBottleneckHeatmap({
               z,
               text,
               hoverinfo: 'text',
-              colorscale: 'Reds',
+              colorscale: SCALE_DURATION,
               colorbar: {
                 tickvals,
                 ticktext: tickvals.map((v) => formatDuration(v)),
@@ -918,7 +920,7 @@ function SojournVsOwn({ data }: { data: { rows: SojournRow[] } }) {
     name: 'Работа',
     type: 'bar',
     orientation: 'h',
-    marker: { color: '#1677ff' },
+    marker: { color: CHART.primary },
     customdata: data.rows.map((r) => formatDuration(r.work_seconds)),
     hovertemplate: '%{y}<br>Работа: %{customdata}<extra></extra>',
   };
@@ -928,7 +930,7 @@ function SojournVsOwn({ data }: { data: { rows: SojournRow[] } }) {
     name: 'Ожидание',
     type: 'bar',
     orientation: 'h',
-    marker: { color: '#fa8c16' },
+    marker: { color: CHART.secondary },
     customdata: data.rows.map((r) => formatDuration(r.wait_seconds)),
     hovertemplate: '%{y}<br>Ожидание: %{customdata}<extra></extra>',
   };
