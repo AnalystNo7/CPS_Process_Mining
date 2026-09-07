@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  App,
   Button,
   Empty,
-  Modal,
   Select,
   Space,
   Table,
@@ -25,6 +25,8 @@ interface MappingRow {
 }
 
 export function RoleMappingTab({ projectId }: { projectId: number }) {
+  // Тема antd доступна только через хук: статический Modal её не наследует.
+  const { modal } = App.useApp();
   const queryClient = useQueryClient();
   const [draft, setDraft] = useState<Record<string, string>>({});
   const [roleOptions, setRoleOptions] = useState<string[]>([]);
@@ -82,7 +84,7 @@ export function RoleMappingTab({ projectId }: { projectId: number }) {
       void queryClient.invalidateQueries({ queryKey: ['role-mapping', projectId] });
       // Бизнес-правило: предложить применить разметку к отображению —
       // тогда операции переименуются по разметке и все дашборды перестроятся.
-      Modal.confirm({
+      modal.confirm({
         title: 'Применить разметку к отображению?',
         content:
           'Операции будут показаны по разметке (переименованы по ролям), ' +
@@ -112,7 +114,7 @@ export function RoleMappingTab({ projectId }: { projectId: number }) {
   // подразделения. Показываем модалку со списком именно этих подразделений.
   const handleSave = () => {
     if (unmapped.length > 0) {
-      Modal.warning({
+      modal.warning({
         title: 'Роли не размечены',
         width: 520,
         content: (

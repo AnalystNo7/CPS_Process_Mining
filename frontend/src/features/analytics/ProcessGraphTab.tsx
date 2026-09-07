@@ -1,12 +1,12 @@
 import { CopyOutlined, DownloadOutlined } from '@ant-design/icons';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
+  App,
   Button,
   Card,
   Checkbox,
   Empty,
   List,
-  message,
   Select,
   Slider,
   Space,
@@ -79,6 +79,8 @@ export function ProcessGraphTab({
    * управляет переключатель дашборда; локальный селектор не используется. */
   activityLevel?: string;
 }) {
+  // Тема antd доступна только через хук: статический message её не наследует.
+  const { message } = App.useApp();
   const [localFilters, setLocalFilters] = useState<EventFilter>({});
   // В embedded-режиме игнорируем локальный state и берём фильтры от родителя.
   // useMemo — чтобы ссылка на объект не менялась каждый рендер (стабильные deps).

@@ -14,8 +14,8 @@
 }
 
 :where(.ant-table-thead > tr > th) {
-  background: var(--line-2);
-  color: var(--ink-2);
+  background: var(--line);
+  color: var(--gpc-gray-700);
   font-weight: 600;
   font-size: 12px;
   letter-spacing: .2px;
@@ -23,21 +23,17 @@
 }
 
 :where(.ant-table-tbody > tr > td) {
-  border-bottom: 1px solid var(--line-2);
-}
-
-:where(.ant-table-tbody > tr:hover > td) {
-  background: var(--gpc-sky-50) !important;
+  border-bottom: 1px solid var(--line);
 }
 
 :where(.ant-btn) {
   border-radius: var(--r-md);
   font-weight: 500;
-  height: var(--h-ctrl);
+  height: 36px;
 }
 
 :where(.ant-btn-sm) {
-  height: var(--h-ctrl-sm);
+  height: 30px;
 }
 
 :where(.ant-btn-primary) {
@@ -101,7 +97,7 @@
 }
 
 :where(.ant-typography) {
-  color: var(--ink-1);
+  color: var(--gpc-gray-800);
 }
 
 /* react-grid-layout: 8 ручек ресайза (4 угла + 4 края), видны только в edit-режиме. */

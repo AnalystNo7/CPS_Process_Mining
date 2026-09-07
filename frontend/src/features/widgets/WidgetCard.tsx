@@ -186,7 +186,7 @@ export function WidgetCard({
             userSelect: 'none',
           }}
         >
-          {editing ? <DragOutlined style={{ color: 'var(--ink-4)' }} /> : null}
+          {editing ? <DragOutlined style={{ color: 'var(--gpc-gray-400)' }} /> : null}
           {widget.title}
           {hint ? (
             <Popover
@@ -194,7 +194,7 @@ export function WidgetCard({
               content={<div style={{ maxWidth: 320 }}>{hint}</div>}
             >
               <QuestionCircleOutlined
-                style={{ color: 'var(--ink-4)', cursor: 'help' }}
+                style={{ color: 'var(--gpc-gray-400)', cursor: 'help' }}
                 // Клик/перетаскивание иконки не должно запускать drag карточки.
                 onMouseDown={(e) => e.stopPropagation()}
                 onClick={(e) => e.stopPropagation()}
@@ -225,7 +225,7 @@ export function WidgetCard({
                 // Клик/ввод в поле не должен запускать перетаскивание карточки.
                 onMouseDown={(e) => e.stopPropagation()}
               >
-                <span style={{ fontSize: 12, color: 'var(--ink-4)' }}>SLA</span>
+                <span style={{ fontSize: 12, color: 'var(--gpc-gray-400)' }}>SLA</span>
                 <InputNumber
                   size="small"
                   min={0}

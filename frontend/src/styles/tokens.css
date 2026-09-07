@@ -1,59 +1,146 @@
-/* Дизайн-токены «Газпром ЦПС» — палитра, шрифты, радиусы, тени. */
+/* Дизайн-токены «Газпром ЦПС» — единственный источник значений для CSS.
+   JS-зеркало (для темы antd и палитры графиков) — src/styles/theme.ts;
+   расхождение ловит theme.test.ts.
+
+   Глобальный reset прототипа (a:hover, h1-h5, button, p) сознательно НЕ
+   переносится — конфликтует с Typography/Button/Link из Ant Design. */
 
 :root {
-  /* Брендовые цвета */
-  --gpc-blue: #0079C2;
-  --gpc-blue-700: #0668A8;
-  --gpc-blue-800: #08568A;
-  --gpc-blue-900: #08416B;
-  --gpc-sky: #D7F0FA;
-  --gpc-sky-50: #EAF6FC;
-  --gpc-orange: #FF6919;
-  --gpc-orange-600: #E55C12;
+  /* ===== Основной бренд ===== */
+  --gpc-blue: #0079C2;           /* Pantone 300 — базовый брендовый */
+  --gpc-blue-600: #0068A8;       /* hover */
+  --gpc-blue-700: #055791;       /* active */
+  --gpc-blue-800: #033D62;       /* тёмный акцент */
+  --gpc-blue-900: #022A45;
 
-  /* Семантика */
-  --ok: #1F9D5E;
+  /* ===== Акцент ===== */
+  --gpc-orange: #FF6919;         /* Pantone 1655 — CTA */
+  --gpc-orange-600: #E85600;
+  --gpc-orange-700: #D65200;
+
+  /* ===== Дополнительные ===== */
+  --gpc-sky: #D7F0FA;            /* Pantone 290 — мягкая подложка */
+  --gpc-sky-deep: #B7E3F5;
+  --gpc-sky-50: #EAF6FC;         /* светлая заливка баннера */
+  --gpc-cyan: #27AFF5;
+  --gpc-cyan-light: #47D8FF;
+  --gpc-peach: #FFC198;
+
+  /* ===== Нейтрали ===== */
+  --gpc-white: #FFFFFF;
+  --gpc-gray-50: #F7F9FB;
+  --gpc-gray-100: #ECECEC;
+  --gpc-gray-150: #E4E8EC;
+  --gpc-gray-200: #CFD6DD;
+  --gpc-gray-300: #B7C7D1;
+  --gpc-gray-400: #8FA0AD;
+  --gpc-gray-500: #667482;
+  --gpc-gray-600: #4B5864;
+  --gpc-gray-700: #2E3944;
+  --gpc-gray-800: #1A232C;
+  --gpc-black: #0A1017;
+
+  /* ===== Семантика ===== */
+  --ok-green: #1F9D5E;
+  --ok-green-bg: #E3F5EB;
   --warn: #E89A14;
+  --warn-bg: #FFF2D6;
+  --warn-text: #B7780A;
   --err: #D43232;
+  --err-bg: #FBE4E4;
+  --info: #0079C2;
+  --info-bg: #D7F0FA;
+  --orange-bg: #FFE7D8;
 
-  /* Нейтрали */
-  --bg: #F2F5F8;
-  --surface: #FFFFFF;
+  /* Тёплый баннер */
+  --warm-bg-1: #FFE8D4;
+  --warm-bg-2: #FFF4EA;
+  --warm-line: #FFCFAA;
+
+  /* ===== Страница ===== */
+  --page-bg: #F2F5F8;
+  --card-bg: #FFFFFF;
   --line: #E4E8EC;
-  --line-2: #EEF1F4;
-  --ink-1: #11202E;
-  --ink-2: #3B4A58;
-  --ink-3: #6B7785;
-  --ink-4: #9AA4AF;
+  --line-strong: #CFD6DD;
 
-  /* Радиусы */
+  /* ===== Слои поверх брендового фона (сайдбар) ===== */
+  --on-brand: rgba(255, 255, 255, .88);
+  --on-brand-strong: #FFFFFF;
+  --on-brand-muted: rgba(255, 255, 255, .70);
+  --on-brand-label: rgba(255, 255, 255, .55);
+  --on-brand-hover: rgba(255, 255, 255, .09);
+  --on-brand-active: rgba(255, 255, 255, .14);
+  --on-brand-line: rgba(255, 255, 255, .10);
+  --on-brand-fill: rgba(255, 255, 255, .08);
+
+  /* ===== Типографика ===== */
+  --font-ui: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-head: 'PT Sans Narrow', 'Oswald', 'Inter', sans-serif;
+
+  /* ===== Радиусы ===== */
+  --r-xs: 4px;
   --r-sm: 6px;
   --r-md: 8px;
   --r-lg: 12px;
   --r-xl: 16px;
 
-  /* Тени */
-  --shadow-card: 0 1px 2px rgba(11, 31, 51, .04), 0 6px 18px rgba(11, 31, 51, .06);
-  --shadow-pop:  0 10px 30px rgba(11, 31, 51, .12);
+  /* ===== Тени ===== */
+  --shadow-card: 0 1px 2px rgba(10, 16, 23, .04), 0 2px 8px rgba(10, 16, 23, .04);
+  --shadow-pop: 0 8px 32px rgba(10, 16, 23, .12), 0 2px 8px rgba(10, 16, 23, .06);
+  --shadow-modal: 0 24px 64px rgba(10, 16, 23, .24);
 
-  /* Типографика */
-  --font-base: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  --font-head: 'PT Sans Narrow', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  /* ===== Геометрия каркаса ===== */
+  --sidebar-w: 232px;
+  --sidebar-w-collapsed: 64px;
+  --header-h: 56px;
 
-  /* Высоты управляющих элементов */
-  --h-ctrl: 36px;
-  --h-ctrl-sm: 28px;
-}
+  /* Плотность интерфейса — фиксированная (comfortable из прототипа). */
+  --row-h: 44px;
+  --card-pad: 20px;
+  --gap-3: 16px;
 
-html, body {
-  background: var(--bg);
-  color: var(--ink-1);
-  font-family: var(--font-base);
-  font-size: 13px;
-  line-height: 1.45;
-  -webkit-font-smoothing: antialiased;
+  /* Высота шапки виджета: связана с WIDGET_HEAD_PX в theme.ts
+     (WidgetCard считает высоту тела, durationLayout — число строк сетки). */
+  --widget-head-h: 44px;
 }
 
 * {
   box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--page-bg);
+  color: var(--gpc-gray-800);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--gpc-sky);
+  color: var(--gpc-blue-800);
+}
+
+/* Скроллбары в стиле прототипа. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gpc-gray-200);
+  border-radius: 10px;
+  border: 2px solid var(--page-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gpc-gray-300);
 }
