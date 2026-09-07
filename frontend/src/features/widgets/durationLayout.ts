@@ -1,3 +1,5 @@
+import { WIDGET_HEAD_PX } from '@/styles/theme';
+
 /**
  * Адаптивная высота виджетов длительности под число операций.
  *
@@ -14,7 +16,8 @@ const MAX_OPS = 25;
 // Единица сетки GridLayout: rowHeight(60) + вертикальный margin(16).
 const GRID_UNIT = 76;
 // Шапка карточки виджета.
-const CARD_HEADER_PX = 40;
+// Высота шапки карточки: общий токен (--widget-head-h / theme.ts).
+const CARD_HEADER_PX = WIDGET_HEAD_PX;
 
 // Базовая высота (оси/отступы/легенда), не зависящая от числа операций.
 const BASE_PX: Record<string, number> = {

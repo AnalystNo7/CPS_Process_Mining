@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { getCurrentMapping, suggestRoles, updateMapping } from '@/api/roleMappings';
 import { applyMappingToView } from '@/api/virtualDatasets';
 import { getErrorMessage, notifyError, notifySuccess } from '@/lib/notify';
+import { Pill } from '@/components/Pill';
 
 const UNMAPPED = 'Не размечено';
 
@@ -176,9 +177,9 @@ export function RoleMappingTab({ projectId }: { projectId: number }) {
           Сохранить разметку
         </Button>
         <Tag>Подразделений: {rows.length}</Tag>
-        <Tag color={unmappedCount > 0 ? 'orange' : 'green'}>
+        <Pill tone={unmappedCount > 0 ? 'orange' : 'green'}>
           Не размечено: {unmappedCount}
-        </Tag>
+        </Pill>
         {mapping && <Tag>Версия: {mapping.version}</Tag>}
       </Space>
       <Table

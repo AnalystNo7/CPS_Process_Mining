@@ -25,6 +25,7 @@ import {
   type GlobalRoleTemplate,
 } from '@/api/globalRoles';
 import { getErrorMessage, notifyError, notifySuccess } from '@/lib/notify';
+import { Pill } from '@/components/Pill';
 
 export function GlobalRolesPage() {
   const queryClient = useQueryClient();
@@ -110,7 +111,7 @@ export function GlobalRolesPage() {
       key: 'is_active',
       width: 120,
       render: (active: boolean) =>
-        active ? <Tag color="green">Активна</Tag> : <Tag>Отключена</Tag>,
+        active ? <Pill tone="green">Активна</Pill> : <Pill tone="gray">Отключена</Pill>,
     },
     {
       title: '',

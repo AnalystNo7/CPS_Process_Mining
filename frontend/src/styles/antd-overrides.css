@@ -1,103 +1,47 @@
-/* Подстройка глобальных AntD-компонентов под GPC. */
+/* Точечные доводки Ant Design под дизайн-систему.
+   Всё, что выражается токенами (цвета, радиусы, высоты, шрифты), задано в
+   theme.ts — здесь только то, чего в токенах нет.
 
-:where(.ant-card) {
-  border-radius: var(--r-lg);
-  border-color: var(--line);
+   Селекторы повторяют вложенность antd: его CSS-in-JS пишет правила вида
+   `:where(.css-hash).ant-table-wrapper .ant-table-thead > tr > th`, и плоский
+   `.ant-table-thead > tr > th` их не перебивает. */
+
+/* Заголовки таблиц: капитель с разрядкой — в токенах Table такого нет. */
+.ant-table-wrapper .ant-table-thead > tr > th {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  border-bottom: 1px solid var(--line-strong);
 }
 
-:where(.ant-card.card) {
-  box-shadow: var(--shadow-card);
+/* Акцидентный шрифт заголовков: в antd один fontFamily на всё. */
+.ant-modal .ant-modal-title,
+h1.ant-typography,
+h2.ant-typography,
+h3.ant-typography {
+  font-family: var(--font-head);
+  letter-spacing: -0.01em;
 }
 
-:where(.ant-table) {
-  font-size: 13px;
-}
-
-:where(.ant-table-thead > tr > th) {
-  background: var(--line);
-  color: var(--gpc-gray-700);
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: .2px;
-  border-bottom: 1px solid var(--line);
-}
-
-:where(.ant-table-tbody > tr > td) {
-  border-bottom: 1px solid var(--line);
-}
-
-:where(.ant-btn) {
-  border-radius: var(--r-md);
-  font-weight: 500;
-  height: 36px;
-}
-
-:where(.ant-btn-sm) {
-  height: 30px;
-}
-
-:where(.ant-btn-primary) {
-  background: var(--gpc-blue);
-  border-color: var(--gpc-blue);
-  box-shadow: none;
-}
-
-:where(.ant-btn-primary:not(:disabled):hover) {
-  background: var(--gpc-blue-700);
-  border-color: var(--gpc-blue-700);
-}
-
-:where(.ant-input, .ant-input-affix-wrapper, .ant-select-selector, .ant-picker) {
-  border-radius: var(--r-md);
-  border-color: var(--line);
-}
-
-:where(.ant-input-affix-wrapper:focus-within, .ant-input:focus) {
-  border-color: var(--gpc-blue);
-  box-shadow: 0 0 0 2px rgba(0, 121, 194, .15);
-}
-
-:where(.ant-slider-track) {
+/* Сегментированный переключатель: выбранный элемент — брендовый. */
+.ant-segmented .ant-segmented-item-selected,
+.ant-segmented .ant-segmented-thumb {
   background: var(--gpc-blue);
 }
 
-:where(.ant-slider-handle::after) {
-  box-shadow: 0 0 0 2px var(--gpc-blue) !important;
+.ant-segmented .ant-segmented-item-selected .ant-segmented-item-label {
+  color: var(--gpc-white);
 }
 
-:where(.ant-segmented-item-selected) {
+/* Сетка дашборда: заглушка перетаскивания и подсветка ручек. */
+.react-grid-item.react-grid-placeholder {
   background: var(--gpc-blue);
-  color: #fff;
-}
-
-:where(.ant-segmented-item-selected .ant-segmented-item-label) {
-  color: #fff;
-}
-
-:where(.ant-tag) {
-  border-radius: 999px;
-  padding: 0 10px;
-  font-weight: 500;
-}
-
-:where(.ant-modal-content) {
+  opacity: .12;
   border-radius: var(--r-lg);
 }
 
-:where(.ant-modal-header) {
-  border-radius: var(--r-lg) var(--r-lg) 0 0;
-}
-
-:where(.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn) {
-  color: var(--gpc-blue);
-}
-
-:where(.ant-tabs-ink-bar) {
-  background: var(--gpc-blue);
-}
-
-:where(.ant-typography) {
-  color: var(--gpc-gray-800);
+.react-grid-item > .react-resizable-handle::after {
+  display: none;
 }
 
 /* react-grid-layout: 8 ручек ресайза (4 угла + 4 края), видны только в edit-режиме. */

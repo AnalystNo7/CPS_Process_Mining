@@ -5,7 +5,6 @@ import {
   Drawer,
   Space,
   Table,
-  Tag,
   type TableColumnsType,
   type TablePaginationConfig,
 } from 'antd';
@@ -28,6 +27,7 @@ import {
   TABLE_PAGE_SIZE_OPTIONS_STR,
   TWO_STATE_SORT_DIRECTIONS,
 } from '@/lib/table';
+import { Pill } from '@/components/Pill';
 
 /** Сопоставление колонок AntD ↔ полей сортировки на бэке (T49). */
 const SORT_COLUMN_TO_FIELD: Record<string, string> = {
@@ -128,7 +128,7 @@ export function CasesTab({
       width: 120,
       sorter: true,
       render: (value: boolean) =>
-        value ? <Tag color="orange">Есть</Tag> : <Tag color="green">Нет</Tag>,
+        value ? <Pill tone="orange">Есть</Pill> : <Pill tone="green">Нет</Pill>,
     },
     {
       title: 'Начало',
@@ -198,7 +198,7 @@ function CaseDetailView({
       render: (_, event) => (
         <Space size={4}>
           {event.activity}
-          {event.is_repeat && <Tag color="orange">повтор</Tag>}
+          {event.is_repeat && <Pill tone="orange">повтор</Pill>}
         </Space>
       ),
     },

@@ -1,4 +1,4 @@
-import { Empty, Table, Tag, Typography, type TableColumnsType } from 'antd';
+import { Empty, Table, Typography, type TableColumnsType } from 'antd';
 import type { Data, Layout } from 'plotly.js';
 
 import type { CytoscapeElement } from '@/api/analytics';
@@ -12,6 +12,8 @@ import {
 } from '@/lib/table';
 
 import { durationPlotHeight } from './durationLayout';
+import { Pill } from '@/components/Pill';
+import { SLA_STATUS, statusView } from '@/lib/status';
 
 /**
  * T49: общий конфиг пагинации для табличных виджетов дашборда.
@@ -305,13 +307,6 @@ interface SlaRow {
   status: string;
 }
 
-const SLA_STATUS_COLOR: Record<string, string> = {
-  good: 'green',
-  warning: 'orange',
-  poor: 'red',
-  no_rule: 'default',
-};
-
 function SlaTable({
   data,
 }: {
@@ -352,7 +347,9 @@ function SlaTable({
       width: 110,
       sorter: (a, b) => a.status.localeCompare(b.status),
       render: (status: string) => (
-        <Tag color={SLA_STATUS_COLOR[status] ?? 'default'}>{status}</Tag>
+        <Pill tone={statusView(SLA_STATUS, status).tone}>
+          {statusView(SLA_STATUS, status).label}
+        </Pill>
       ),
     },
   ];

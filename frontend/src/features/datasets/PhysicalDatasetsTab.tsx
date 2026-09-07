@@ -19,16 +19,11 @@ import {
   listDatasets,
   type PhysicalDataset,
 } from '@/api/physicalDatasets';
+import { Pill } from '@/components/Pill';
 import { formatDateTime } from '@/lib/format';
 import { getErrorMessage, notifyError, notifySuccess } from '@/lib/notify';
+import { DATASET_STATUS, HEALTH_STATUS, SEVERITY_STATUS, statusView } from '@/lib/status';
 
-import {
-  DATASET_STATUS_COLOR,
-  DATASET_STATUS_LABEL,
-  HEALTH_COLOR,
-  HEALTH_LABEL,
-  SEVERITY_COLOR,
-} from './datasetStatus';
 import { UploadWizard } from './UploadWizard';
 
 export function PhysicalDatasetsTab({ projectId }: { projectId: number }) {
@@ -70,9 +65,9 @@ export function PhysicalDatasetsTab({ projectId }: { projectId: number }) {
       dataIndex: 'status',
       key: 'status',
       render: (status: string) => (
-        <Tag color={DATASET_STATUS_COLOR[status] ?? 'default'}>
-          {DATASET_STATUS_LABEL[status] ?? status}
-        </Tag>
+        <Pill tone={statusView(DATASET_STATUS, status).tone}>
+          {statusView(DATASET_STATUS, status).label}
+        </Pill>
       ),
     },
     {
@@ -95,9 +90,9 @@ export function PhysicalDatasetsTab({ projectId }: { projectId: number }) {
       render: (_, dataset) =>
         dataset.status === 'ready' ? (
           <Button type="link" size="small" onClick={() => setHealthFor(dataset)}>
-            <Tag color={HEALTH_COLOR[dataset.health_status] ?? 'default'}>
-              {HEALTH_LABEL[dataset.health_status] ?? dataset.health_status}
-            </Tag>
+            <Pill tone={statusView(HEALTH_STATUS, dataset.health_status).tone}>
+              {statusView(HEALTH_STATUS, dataset.health_status).label}
+            </Pill>
           </Button>
         ) : (
           '—'
@@ -189,9 +184,9 @@ function HealthReportView({
           <List.Item.Meta
             title={
               <Space>
-                <Tag color={SEVERITY_COLOR[check.severity] ?? 'default'}>
-                  {check.severity}
-                </Tag>
+                <Pill tone={statusView(SEVERITY_STATUS, check.severity).tone}>
+                  {statusView(SEVERITY_STATUS, check.severity).label}
+                </Pill>
                 {check.name}
               </Space>
             }

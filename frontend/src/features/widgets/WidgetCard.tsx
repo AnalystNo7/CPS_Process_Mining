@@ -210,7 +210,7 @@ export function WidgetCard({
       }}
       styles={{
         body: {
-          height: 'calc(100% - 40px)',
+          height: 'calc(100% - var(--widget-head-h))',
           overflow: 'auto',
           display: 'flex',
           flexDirection: 'column',

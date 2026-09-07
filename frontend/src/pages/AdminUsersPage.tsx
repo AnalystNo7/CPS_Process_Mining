@@ -11,7 +11,6 @@ import {
   Space,
   Switch,
   Table,
-  Tag,
   type TableColumnsType,
 } from 'antd';
 import { useState } from 'react';
@@ -27,6 +26,7 @@ import type { UserRole } from '@/api/types';
 import { formatDateTime } from '@/lib/format';
 import { getErrorMessage, notifyError, notifySuccess } from '@/lib/notify';
 import { useAuthStore } from '@/stores/authStore';
+import { Pill } from '@/components/Pill';
 
 interface UserFormValues {
   username: string;
@@ -140,9 +140,9 @@ export function AdminUsersPage() {
       dataIndex: 'role',
       key: 'role',
       render: (role: UserRole) => (
-        <Tag color={role === 'admin' ? 'gold' : 'blue'}>
+        <Pill tone={role === 'admin' ? 'blue' : 'gray'} dot={false}>
           {role === 'admin' ? 'Администратор' : 'Аналитик'}
-        </Tag>
+        </Pill>
       ),
     },
     {
@@ -156,7 +156,7 @@ export function AdminUsersPage() {
       dataIndex: 'is_active',
       key: 'is_active',
       render: (active: boolean) =>
-        active ? <Tag color="green">Активен</Tag> : <Tag color="red">Заблокирован</Tag>,
+        active ? <Pill tone="green">Активен</Pill> : <Pill tone="red">Заблокирован</Pill>,
     },
     {
       title: 'Последний вход',
